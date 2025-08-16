@@ -1,0 +1,13 @@
+app_name: "webapp001"
+environments:
+  - "dev"
+  - "staging"
+  - "prod"
+enable_approle: true
+create_admin_policy: false
+approle_token_ttl: 7200
+approle_token_max_ttl: 86400
+tags:
+  team: "frontend"
+  component: "web-application"
+  criticality: "high"

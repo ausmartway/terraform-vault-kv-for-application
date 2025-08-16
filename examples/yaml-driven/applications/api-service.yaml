@@ -1,0 +1,14 @@
+app_name: "api-service"
+environments:
+  - "dev"
+  - "test"
+  - "staging"
+  - "prod"
+enable_approle: true
+create_admin_policy: true
+approle_token_ttl: 3600
+approle_token_max_ttl: 43200
+tags:
+  team: "backend"
+  component: "api"
+  criticality: "critical"

@@ -1,0 +1,117 @@
+formatter: "markdown table"
+
+version: ""
+
+header-from: main.tf
+footer-from: ""
+
+recursive:
+  enabled: false
+  path: modules
+
+sections:
+  hide: []
+  show: []
+
+content: |-
+  {{ .Header }}
+
+  ## Usage
+
+  ### Basic Example
+  ```hcl
+  module "app_secrets" {
+    source = "github.com/ausmartway/terraform-vault-kv-for-application"
+    
+    app_name     = "myapp"
+    environments = ["dev", "staging", "prod"]
+    
+    enable_approle      = true
+    create_admin_policy = false
+    
+    tags = {
+      Team = "platform"
+    }
+  }
+  ```
+
+  ### YAML-Driven Example
+  ```hcl
+  locals {
+    app_configs = [for f in fileset(path.module, "apps/*.yaml") : yamldecode(file(f))]
+    app_map     = { for app in local.app_configs : app.app_name => app }
+  }
+
+  module "applications" {
+    source   = "github.com/ausmartway/terraform-vault-kv-for-application"
+    for_each = local.app_map
+    
+    app_name     = each.value.app_name
+    environments = each.value.environments
+  }
+  ```
+
+  ## Features
+
+  - **Environment Isolation**: Creates separate KV2 mount points for each environment
+  - **Role-Based Access Control**: Three policy types (provider, consumer, admin)
+  - **AppRole Integration**: Optional AppRole authentication for CI/CD systems
+  - **Flexible Configuration**: Supports both direct and YAML-driven configuration
+  - **Security Best Practices**: Implements principle of least privilege
+
+  ## Requirements
+
+  {{ .Requirements }}
+
+  ## Providers
+
+  {{ .Providers }}
+
+  ## Modules
+
+  {{ .Modules }}
+
+  ## Resources
+
+  {{ .Resources }}
+
+  ## Inputs
+
+  {{ .Inputs }}
+
+  ## Outputs
+
+  {{ .Outputs }}
+
+  {{ .Footer }}
+
+output:
+  file: "README.md"
+  mode: inject
+  template: |-
+    <!-- BEGIN_TF_DOCS -->
+    {{ .Content }}
+    <!-- END_TF_DOCS -->
+
+output-values:
+  enabled: false
+  from: ""
+
+sort:
+  enabled: true
+  by: name
+
+settings:
+  anchor: true
+  color: true
+  default: true
+  description: false
+  escape: true
+  hide-empty: false
+  html: true
+  indent: 2
+  lockfile: true
+  read-comments: true
+  required: true
+  sensitive: true
+  type: true
