@@ -19,6 +19,7 @@ module "app_secrets" {
   app_name     = "myapp"
   environments = ["dev", "staging", "prod"]
 
+  # Explicitly enable AppRole (disabled by default for security)
   enable_approle      = true
   create_admin_policy = false
 

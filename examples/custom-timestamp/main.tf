@@ -20,6 +20,7 @@ module "app_iso_timestamp" {
   app_name     = "iso-app"
   environments = ["dev", "prod"]
 
+  # Explicitly enable AppRole for this example
   enable_approle      = true
   create_admin_policy = false
 
@@ -58,6 +59,7 @@ module "app_epoch_timestamp" {
   app_name     = "epoch-app"
   environments = ["test"]
 
+  # Explicitly enable AppRole for this example
   enable_approle      = true
   create_admin_policy = false
 

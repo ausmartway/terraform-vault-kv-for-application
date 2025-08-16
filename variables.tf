@@ -39,7 +39,7 @@ variable "approle_path" {
 
 variable "enable_approle" {
   type        = bool
-  default     = true
+  default     = false
   description = "Whether to create AppRole roles for authentication. Use native cloud auth when available."
 }
 

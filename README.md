@@ -26,6 +26,7 @@ module "app_secrets" {
   app_name     = "myapp"
   environments = ["dev", "staging", "prod"]
   
+  # Security: AppRole disabled by default, enable only if needed
   enable_approle      = true
   create_admin_policy = false
   
@@ -85,6 +86,31 @@ This module creates the following resources for each application:
 - Creates AppRole roles for each policy type
 - Configurable token TTLs and CIDR restrictions
 - Suitable when native cloud auth isn't available
+- **Default**: Disabled for security (enable explicitly when needed)
+
+## Security-First Design
+
+This module follows security best practices with secure defaults:
+
+- **AppRole Disabled by Default**: `enable_approle = false` - Use native cloud authentication when available
+- **Admin Policies Disabled**: `create_admin_policy = false` - Prevents accidental over-privileging
+- **Principle of Least Privilege**: Separate policies for providers (write-only) and consumers (read-only)
+- **Environment Isolation**: Each environment has separate mount points and policies
+- **CIDR Restrictions**: Optional network-based access controls for AppRole
+- **Token Limits**: Configurable TTLs and usage limits
+
+### When to Enable AppRole
+
+Enable AppRole authentication only when:
+- Native cloud authentication (AWS IAM, GCP Service Accounts, Azure MSI) is not available
+- Kubernetes Service Account authentication is not suitable
+- LDAP/AD integration is not feasible
+- You need programmatic access from systems outside your cloud provider
+
+```hcl
+# Only enable when native auth isn't available
+enable_approle = true
+```
 
 ## Creation Time Tracking
 
@@ -118,6 +144,7 @@ See the [examples](./examples) directory for complete usage examples:
 - [Basic Example](./examples/basic) - Simple single application setup
 - [YAML-Driven Example](./examples/yaml-driven) - Multiple applications from YAML files
 - [Custom Timestamp Example](./examples/custom-timestamp) - Different timestamp format examples
+- [Minimal Security Example](./examples/minimal-security) - Security-first configurations and best practices
 
 ## Development
 

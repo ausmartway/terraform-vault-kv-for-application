@@ -73,7 +73,9 @@ Three types of policies are created per environment:
 - **Scope**: Full access to all environments for the application
 - **Default**: Disabled for security (set `create_admin_policy = true` to enable)
 
-### 3. **AppRole Authentication** (Optional)
+### 3. **AppRole Authentication** (Optional - Disabled by Default)
+
+**Security Note**: AppRole is disabled by default (`enable_approle = false`) following security best practices. Enable only when native cloud authentication is not available.
 
 When `enable_approle = true`, creates AppRole roles for each policy type:
 - `{app_name}-{environment}-secret-provider`
@@ -93,7 +95,7 @@ When `enable_approle = true`, creates AppRole roles for each policy type:
 | `app_name` | string | *required* | Name of the application (with validation) |
 | `environments` | list(string) | `["prod", "dev"]` | List of environments to create |
 | `approle_path` | string | `"approle"` | Path of the AppRole auth backend |
-| `enable_approle` | bool | `true` | Whether to create AppRole roles |
+| `enable_approle` | bool | `false` | Whether to create AppRole roles (disabled by default) |
 | `create_admin_policy` | bool | `false` | Whether to create admin policies (disabled by default) |
 | `tags` | map(string) | `{}` | Additional tags for resources |
 | `timestamp_format` | string | `"YYYY-MM-DD hh:mm:ss ZZZ"` | Format for creation time timestamps |
